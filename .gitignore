@@ -13,6 +13,7 @@
 *.dylib
 
 # Executables
+formatify
 *.exe
 *.out
 *.app
