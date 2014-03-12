@@ -1,21 +1,44 @@
 #!/bin/sh
 
-while getopts a:b:c flag;
+usage ()
+{
+	usage="Usage: $0 [-v] [options]
+YAY, TUBG
+"
+
+	printf "%s\n" "$usage"
+}
+
+while :
 do
-	case $flag in
-		a)
-			echo "-a used: $OPTARG";
+	case $1 in
+		-h | --help | -\?)
+			usage;
+			exit 0;
 			;;
-		b)
-			echo "-b used: $OPTARG";
+		-f | --file)
+			file=$2;
+			shift 2;
 			;;
-		c)
-			echo "-c used";
+		--file=*)
+			file=${1#*=}
+			shift 1;
 			;;
-		?)
-			exit;
+		-v | --verbose)
+			verbose=$((verbose+1))
+			shift 1;
+			;;
+		--)
+			shift 1;
+			break;
+			;;
+		-*)
+			printf >&2 "Warning: Unknown option ignored: %s\n" "$1"
+			shift 1;
+			break;
+			;;
+		*)
+			break;
 			;;
 	esac
 done
-
-shift $((OPTIND - 1))
